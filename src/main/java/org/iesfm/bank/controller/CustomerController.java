@@ -2,7 +2,10 @@ package org.iesfm.bank.controller;
 
 import org.iesfm.bank.Customer;
 import org.iesfm.bank.repository.CustomerRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,6 +29,11 @@ public class CustomerController {
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/customers/{id}")
     public void deleteCustomer(@PathVariable("id") int id) {
-        customerRepository.deleteById(id);
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
+        }
+        throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "The customer not exists in the Bank"
+        );
     }
 }
