@@ -26,6 +26,6 @@ public class CustomerController {
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/customers/{id}")
     public void deleteCustomer(@PathVariable("id") int id) {
-
+        customerRepository.deleteById(id);
     }
 }
